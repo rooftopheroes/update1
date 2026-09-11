@@ -115,6 +115,7 @@
   --t1:var(--text);--t3:var(--muted);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden}
@@ -134,7 +135,7 @@ p{max-width:64ch}
 .section-head{max-width:720px;margin:0 auto 40px;text-align:center}
 .section-head p{margin:12px auto 0;color:var(--muted);font-size:17px}
 .eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
-.u{background:linear-gradient(0deg,var(--yellow) 0 30%,transparent 30%);padding:0 2px}
+.u{position:relative;display:inline;padding:0 .04em .1em;-webkit-box-decoration-break:clone;box-decoration-break:clone;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 9.5C45 3 130 0 198 4.5C150 9.5 62 13.5 2 9.5Z' fill='%23FFC928'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:0 100%;background-size:100% .4em}
 [id]{scroll-margin-top:84px}
 .skip{position:absolute;left:8px;top:-60px;background:var(--navy);color:#fff;padding:10px 14px;border-radius:8px;z-index:200;text-decoration:none}
 .skip:focus{top:8px}
@@ -386,44 +387,78 @@ ol.steps-grid{list-style:none;padding:0}
 #quick-quote-callout{display:none!important}
 @media (max-width:720px){#quick-quote-button{display:none!important}}
 
-/* Scheduler modal (markup + ids preserved) */
-.sched-overlay{position:fixed;inset:0;background:rgba(8,24,46,.62);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
+/* Scheduler modal (bottom sheet on phones, centered card on larger screens) */
+.sched-overlay{position:fixed;inset:0;background:rgba(8,24,46,.58);backdrop-filter:blur(3px);z-index:1000;display:none;align-items:flex-end;justify-content:center;padding:0}
 .sched-overlay.open{display:flex}
-.sched-modal{background:#fff;border-radius:16px;width:100%;max-width:640px;max-height:92vh;overflow:auto;box-shadow:var(--shadow-lg);color:var(--text)}
-.sched-hd{display:flex;justify-content:space-between;align-items:flex-start;padding:22px 24px 12px;border-bottom:1px solid var(--line)}
+.sched-modal{background:#fff;width:100%;min-width:0;max-height:92vh;max-height:92dvh;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-lg);color:var(--text);animation:sheetUp .22s ease-out}
+@keyframes sheetUp{from{transform:translateY(28px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.sched-modal{animation:none}}
+.sched-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:20px 22px 14px;border-bottom:1px solid var(--line);flex-shrink:0}
 .sched-hd .eyebrow{margin-bottom:6px}
-.sched-hd h3{font-size:22px}
-.sched-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--navy)}
+.sched-hd h3{font-size:22px;margin:0 0 4px}
+.sched-sub{font-size:13.5px;color:var(--muted);margin:0}
+.sched-close{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--navy)}
+.sched-close:hover{border-color:var(--blue);color:var(--blue)}
 .sched-close svg{width:16px;height:16px}
-.sched-who{padding:10px 24px;background:var(--bg-2);border-bottom:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.sched-who{padding:9px 22px;background:var(--bg-2);border-bottom:1px solid var(--line);font-size:13px;color:var(--muted);flex-shrink:0;line-height:1.45}
 .sched-who strong{color:var(--navy)}
-.sched-body{padding:20px 24px;display:grid;gap:22px}
-.sched-dates-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.sched-dates-label,.sched-times-label{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
-#sched-cal-input{cursor:pointer;color:var(--blue);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:6px;padding:5px 28px 5px 8px;font:600 12px Inter,sans-serif;width:auto;position:relative}
-#sched-cal-input::-webkit-calendar-picker-indicator{position:absolute;left:0;top:0;width:100%;height:100%;cursor:pointer;opacity:0}
+.sched-body{padding:18px 22px 22px;overflow-y:auto;overflow-x:hidden;flex:1;min-height:0;min-width:0;-webkit-overflow-scrolling:touch}
+#sched-view-pick{display:grid;gap:20px;min-width:0}
+#sched-view-details,#sched-view-success{min-width:0}
+.sched-sec{display:grid;gap:10px;min-width:0}
+.sched-dates-row,.sched-dates{min-width:0}
+.sched-sec-hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.sched-label{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.sched-jump{position:relative;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--navy);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.sched-jump svg{width:14px;height:14px;color:var(--blue)}
+.sched-jump input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;padding:0;margin:0;font-size:16px}
 .sched-dates-row{display:flex;align-items:center;gap:6px}
-.sched-scroll-btn{flex-shrink:0;width:30px;height:30px;border-radius:8px;background:#fff;border:1px solid var(--line);color:var(--navy);font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0}
+.sched-scroll-btn{display:none;flex-shrink:0;width:32px;height:32px;border-radius:50%;background:#fff;border:1px solid var(--line);color:var(--navy);font-size:20px;line-height:1;align-items:center;justify-content:center;padding:0 0 2px}
 .sched-scroll-btn:hover{border-color:var(--blue);color:var(--blue)}
-.sched-dates{display:flex;gap:8px;overflow-x:auto;scroll-behavior:smooth;padding:4px 2px;flex:1;scrollbar-width:thin}
-.sched-date{flex:0 0 66px;border:1.5px solid var(--line);border-radius:10px;background:#fff;padding:8px 4px;text-align:center;color:var(--navy);transition:border-color .15s,background .15s}
-.sched-date .sd-dow,.sched-date .sd-mon{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.sched-date .sd-day{font-size:20px;font-weight:800;color:var(--navy);line-height:1.2}
+.sched-dates{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:3px 2px 6px;flex:1;scrollbar-width:none}
+.sched-dates::-webkit-scrollbar{display:none}
+.sched-date{flex:0 0 70px;scroll-snap-align:start;border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:9px 4px 8px;text-align:center;color:var(--navy);transition:border-color .15s,background .15s}
+.sched-date .sd-dow{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.sched-date .sd-day{font-size:22px;font-weight:800;line-height:1.15;color:var(--navy)}
+.sched-date .sd-mon{font-size:11px;color:var(--muted);font-weight:600}
 .sched-date:hover{border-color:var(--blue)}
-.sched-date.active{background:var(--blue);border-color:var(--blue)}
-.sched-date.active .sd-dow,.sched-date.active .sd-mon,.sched-date.active .sd-day{color:#fff}
-.sched-loading,.sched-no-times{font-size:14px;color:var(--muted);padding:6px 0}
-.sched-times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.sched-time{border:1.5px solid var(--line);border-radius:8px;background:#fff;padding:10px 6px;font-weight:600;font-size:14px;color:var(--navy)}
+.sched-date.active{background:var(--navy);border-color:var(--navy)}
+.sched-date.active .sd-dow,.sched-date.active .sd-day,.sched-date.active .sd-mon{color:#fff}
+.sched-times{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sched-time{border:1.5px solid var(--line);border-radius:10px;background:#fff;padding:11px 6px;font-weight:600;font-size:14.5px;color:var(--navy);transition:border-color .15s,background .15s}
 .sched-time:hover{border-color:var(--blue);color:var(--blue)}
 .sched-time.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.sched-ft{padding:16px 24px 22px;border-top:1px solid var(--line);display:grid;gap:10px}
-.sched-selected-info{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--navy)}
+.sched-loading,.sched-no-times{font-size:14px;color:var(--muted);padding:4px 0}
+.sched-ft{padding:12px 22px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:grid;gap:8px;flex-shrink:0;background:#fff}
+.sched-selected-info{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--navy);min-width:0}
 .sched-selected-info svg{width:16px;height:16px;color:var(--blue);flex-shrink:0}
-.sched-confirm{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:14px 20px;font:600 15.5px Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px}
+.sched-selected-info span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sched-confirm{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:14px 22px;font:600 15.5px Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
 .sched-confirm:hover{background:var(--blue-d)}
-.sched-confirm:disabled{opacity:.5;cursor:not-allowed}
-.sched-err{font-size:13px;color:#C0392B;text-align:center;display:none}
+.sched-confirm:disabled{opacity:.45;cursor:not-allowed}
+.sched-err{font-size:13px;color:#C0392B;margin:0;display:none}
+#sched-view-details h4{font-size:20px;margin:4px 0 12px}
+.sched-slot-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;font-weight:600;color:var(--navy);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.sched-slot-line svg{width:16px;height:16px;color:var(--blue);flex-shrink:0}
+.sched-slot-line .linkish{margin:0 0 0 auto;font-size:13px}
+.sched-known{font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.5}
+.sched-known strong{color:var(--navy)}
+#sched-view-details .consent{margin-top:2px}
+#sched-view-success{text-align:center;padding:8px 0 4px}
+.sched-ok-icon{width:58px;height:58px;border-radius:50%;background:#EEF9F1;color:#146C43;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.sched-ok-icon svg{width:28px;height:28px}
+#sched-view-success h4{font-size:22px;margin:0 0 6px}
+.sched-summary{text-align:left;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:14px;line-height:1.8;margin:14px 0 10px}
+.sched-summary strong{color:var(--navy)}
+.sched-fine{font-size:13px;color:var(--muted);margin:0 0 16px}
+@media (min-width:640px){
+  .sched-overlay{align-items:center;padding:20px}
+  .sched-modal{max-width:600px;border-radius:18px;max-height:min(90vh,780px)}
+  .sched-scroll-btn{display:flex}
+  .sched-times{grid-template-columns:repeat(4,1fr)}
+  .sched-ft{grid-template-columns:minmax(0,1fr) auto;align-items:center}
+  .sched-err{grid-column:1/-1}
+}
 
 /* Responsive */
 @media (max-width:1080px){
@@ -513,7 +548,7 @@ ol.steps-grid{list-style:none;padding:0}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
         <span class="num">(734) 201-1000</span>
       </a>
-      <button class="btn btn-p" type="button" onclick="goBook()">Schedule Now</button>
+      <button class="btn btn-p" type="button" onclick="openBooking()">Schedule Now</button>
       <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu"><span></span></button>
     </div>
   </div>
@@ -531,7 +566,7 @@ ol.steps-grid{list-style:none;padding:0}
     <a href="#faq">FAQ</a>
     <div class="mm-cta">
       <a href="tel:7342011000" class="btn btn-s">Call Us</a>
-      <button type="button" class="btn btn-p" onclick="goBook()">Free Inspection</button>
+      <button type="button" class="btn btn-p" onclick="openBooking()">Free Inspection</button>
     </div>
   </div>
 </header>
@@ -542,8 +577,8 @@ ol.steps-grid{list-style:none;padding:0}
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <p class="eyebrow">Southeast Michigan's Modern Roofing Company</p>
-      <h1 id="hero-title">Ann Arbor Roofing Company<span class="h1-sub">Built for Michigan. Backed by <span class="u">integrity.</span></span></h1>
+      <p class="eyebrow">Ann Arbor's Roofing Company &middot; Serving Southeast Michigan</p>
+      <h1 id="hero-title">Protection Built <span class="u">With Purpose.</span><span class="h1-sub">Built for Michigan. Backed by integrity.</span></h1>
       <p class="lead">Durable roofs, built to last. Installed by skilled craftsmen with clear communication from start to finish.</p>
       <p class="lead2">Roof replacement, repair, gutters and insulation for homeowners across Washtenaw, Livingston and western Wayne County. Free inspections, instant online quotes and financing.</p>
       <ul class="checks">
@@ -552,7 +587,7 @@ ol.steps-grid{list-style:none;padding:0}
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>Zero pressure</li>
       </ul>
       <div class="hero-btns">
-        <button type="button" class="btn btn-p btn-lg" onclick="goBook()">
+        <button type="button" class="btn btn-p btn-lg" onclick="openBooking()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
           Schedule a Free Inspection
         </button>
@@ -631,7 +666,7 @@ ol.steps-grid{list-style:none;padding:0}
               </div>
               <!-- value="" keeps this checkbox out of the JobTread payload (empty values are skipped) while still gating both buttons natively. -->
               <label class="consent" for="f-sms-consent">
-                <input type="checkbox" id="f-sms-consent" value="" required>
+                <input type="checkbox" id="f-sms-consent" value="" required checked>
                 <span>I agree to receive SMS text messages from <strong>Rooftop Heroes LLC</strong> about my service request (inspection scheduling, appointment confirmations, estimates and project updates). Message frequency varies. Msg &amp; data rates may apply. Consent is not a condition of purchase. Reply <strong>STOP</strong> to opt out or <strong>HELP</strong> for help. See our <a href="/privacy">Privacy Policy</a> and <a href="/terms">SMS Terms</a>.</span>
               </label>
               <div class="jt-actions">
@@ -692,19 +727,19 @@ ol.steps-grid{list-style:none;padding:0}
     </div>
     <div class="grid-cards svc-grid">
       <article class="card" id="roof-replacement">
-        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></div><h3>Roof Replacement</h3><p>Complete tear-off and replacement using premium materials built for Michigan weather. Written estimate with clear options before any work starts.</p><a class="more" href="#contact" onclick="goBook();return false;">Get a free inspection &rarr;</a></div>
+        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></div><h3>Roof Replacement</h3><p>Complete tear-off and replacement using premium materials built for Michigan weather. Written estimate with clear options before any work starts.</p><a class="more" href="#contact" onclick="openBooking();return false;">Get a free inspection &rarr;</a></div>
       </article>
       <article class="card" id="new-roof">
-        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><h3>New Roof Installation</h3><p>High-quality roofing systems installed with craftsmanship and attention to detail, from underlayment and ice-and-water barrier to ventilation and flashing.</p><a class="more" href="#contact" onclick="goBook();return false;">Get a free inspection &rarr;</a></div>
+        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><h3>New Roof Installation</h3><p>High-quality roofing systems installed with craftsmanship and attention to detail, from underlayment and ice-and-water barrier to ventilation and flashing.</p><a class="more" href="#contact" onclick="openBooking();return false;">Get a free inspection &rarr;</a></div>
       </article>
       <article class="card" id="roof-repair">
-        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L4 14h7l-1 7 9-11h-7l1-7z"/></svg></div><h3>Roof Repair &amp; Storm Damage</h3><p>Missing shingles, leaks, wind or hail damage? We document everything with photos, give you an honest repair-or-replace answer, and help with your insurance paperwork.</p><a class="more" href="#contact" onclick="goBook();return false;">Request a storm assessment &rarr;</a></div>
+        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L4 14h7l-1 7 9-11h-7l1-7z"/></svg></div><h3>Roof Repair &amp; Storm Damage</h3><p>Missing shingles, leaks, wind or hail damage? We document everything with photos, give you an honest repair-or-replace answer, and help with your insurance paperwork.</p><a class="more" href="#contact" onclick="openBooking();return false;">Request a storm assessment &rarr;</a></div>
       </article>
       <article class="card" id="gutters">
-        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v3H3z"/><path d="M18 9v9a2 2 0 0 1-2 2"/><path d="M7 12v2M11 12v3M15 12v2"/></svg></div><h3>Gutters</h3><p>Seamless gutters, guards, fascia, soffit, and drainage solutions that protect your home.</p><a class="more" href="#contact" onclick="goBook();return false;">Get a free estimate &rarr;</a></div>
+        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v3H3z"/><path d="M18 9v9a2 2 0 0 1-2 2"/><path d="M7 12v2M11 12v3M15 12v2"/></svg></div><h3>Gutters</h3><p>Seamless gutters, guards, fascia, soffit, and drainage solutions that protect your home.</p><a class="more" href="#contact" onclick="openBooking();return false;">Get a free estimate &rarr;</a></div>
       </article>
       <article class="card" id="insulation">
-        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M3 8c3 0 3 2 6 2s3-2 6-2 3 2 6 2M3 16c3 0 3 2 6 2s3-2 6-2 3 2 6 2"/></svg></div><h3>Insulation &amp; Ventilation</h3><p>Improve comfort and energy efficiency with proper attic insulation and ventilation, and help prevent the ice dams Michigan winters are known for.</p><a class="more" href="#contact" onclick="goBook();return false;">Get a free estimate &rarr;</a></div>
+        <div class="card-body"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M3 8c3 0 3 2 6 2s3-2 6-2 3 2 6 2M3 16c3 0 3 2 6 2s3-2 6-2 3 2 6 2"/></svg></div><h3>Insulation &amp; Ventilation</h3><p>Improve comfort and energy efficiency with proper attic insulation and ventilation, and help prevent the ice dams Michigan winters are known for.</p><a class="more" href="#contact" onclick="openBooking();return false;">Get a free estimate &rarr;</a></div>
       </article>
     </div>
   </div>
@@ -736,7 +771,7 @@ ol.steps-grid{list-style:none;padding:0}
       </article>
     </div>
     <div class="review-cta">
-      <button type="button" class="btn btn-p" onclick="goBook()">Schedule a Free Inspection</button>
+      <button type="button" class="btn btn-p" onclick="openBooking()">Schedule a Free Inspection</button>
       <a class="btn btn-s" href="https://search.google.com/local/reviews?placeid=ChIJPT0Nt3ixPIgR0G3Rv5eJ8jQ" target="_blank" rel="noopener">Leave us a review</a>
     </div>
   </div>
@@ -785,7 +820,7 @@ ol.steps-grid{list-style:none;padding:0}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         Get My Instant Quote
       </button>
-      <button type="button" class="btn btn-w btn-lg" onclick="goBook()">Book a Free Inspection Instead</button>
+      <button type="button" class="btn btn-w btn-lg" onclick="openBooking()">Book a Free Inspection Instead</button>
       <a class="alt" href="/quote">Or open the full instant-quote page &rarr;</a>
     </div>
   </div>
@@ -933,7 +968,7 @@ ol.steps-grid{list-style:none;padding:0}
     <h2 id="cta-title">Whenever you're ready, we're here to help.</h2>
     <p>Fast, easy, and no pressure. Book a free inspection, get an instant quote, or just call and talk to a real person in Ann Arbor.</p>
     <div class="btns">
-      <button type="button" class="btn btn-y btn-lg" onclick="goBook()">Schedule a Free Inspection</button>
+      <button type="button" class="btn btn-y btn-lg" onclick="openBooking()">Schedule a Free Inspection</button>
       <a class="btn btn-w btn-lg" href="tel:7342011000">Call (734) 201-1000</a>
       <button type="button" class="btn btn-s btn-lg" onclick="openQuote()">Get an Instant Quote</button>
     </div>
@@ -1000,45 +1035,90 @@ ol.steps-grid{list-style:none;padding:0}
 <!-- Sticky mobile call/book bar -->
 <div class="sticky-cta" id="sticky-cta">
   <a href="tel:7342011000" class="btn btn-s">Call Now</a>
-  <button type="button" class="btn btn-p" onclick="goBook()">Free Inspection</button>
+  <button type="button" class="btn btn-p" onclick="openBooking()">Free Inspection</button>
 </div>
 
-<!-- ── SCHEDULING MODAL (markup preserved; used by the scheduler worker flow) ─────────────── -->
-<div class="sched-overlay" id="sched-overlay" role="dialog" aria-modal="true" aria-label="Schedule Inspection">
+<!-- ── SCHEDULING MODAL: opened directly by every "Schedule a Free Inspection" button, and by the form's "Pick My Inspection Time" ── -->
+<div class="sched-overlay" id="sched-overlay" role="dialog" aria-modal="true" aria-labelledby="sched-title">
   <div class="sched-modal">
     <div class="sched-hd">
-      <div class="sched-hd-text">
+      <div>
         <p class="eyebrow">Free Roof Inspection</p>
-        <h3>Pick a date &amp; time</h3>
+        <h3 id="sched-title">Pick a day and time</h3>
+        <p class="sched-sub">About 30 minutes at your home. We confirm by text, and there's never any pressure.</p>
       </div>
       <button class="sched-close" id="sched-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div class="sched-who" id="sched-who"></div>
+    <div class="sched-who" id="sched-who" hidden></div>
     <div class="sched-body">
-      <div>
-        <div class="sched-dates-hd">
-          <div class="sched-dates-label" style="margin-bottom:0">Select a Date</div>
-          <div style="position:relative;display:inline-flex;align-items:center">
-            <input type="date" id="sched-cal-input" aria-label="Pick a date">
-            <svg style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--blue);pointer-events:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+
+      <!-- Step 1: day + time -->
+      <div id="sched-view-pick">
+        <div class="sched-sec">
+          <div class="sched-sec-hd">
+            <span class="sched-label">Choose a day</span>
+            <label class="sched-jump">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span>Jump to a date</span>
+              <input type="date" id="sched-cal-input" aria-label="Pick a date">
+            </label>
+          </div>
+          <div class="sched-dates-row">
+            <button class="sched-scroll-btn" id="sched-prev" type="button" aria-label="Earlier dates">&#8249;</button>
+            <div class="sched-dates" id="sched-dates"></div>
+            <button class="sched-scroll-btn" id="sched-next" type="button" aria-label="Later dates">&#8250;</button>
           </div>
         </div>
-        <div class="sched-dates-row">
-          <button class="sched-scroll-btn" id="sched-prev" type="button" aria-label="Previous dates">&#8249;</button>
-          <div class="sched-dates" id="sched-dates"></div>
-          <button class="sched-scroll-btn" id="sched-next" type="button" aria-label="Next dates">&#8250;</button>
+        <div class="sched-sec">
+          <span class="sched-label">Available times</span>
+          <div class="sched-loading" id="sched-times-loading">Loading available times&hellip;</div>
+          <div class="sched-times" id="sched-times" style="display:none"></div>
+          <div class="sched-no-times" id="sched-no-times" style="display:none">No times left on this day. Pick another day above.</div>
         </div>
       </div>
-      <div>
-        <div class="sched-times-label">Available Times</div>
-        <div class="sched-loading" id="sched-times-loading">Loading available times&hellip;</div>
-        <div class="sched-times" id="sched-times" style="display:none"></div>
-        <div class="sched-no-times" id="sched-no-times" style="display:none">No times available on this day.</div>
+
+      <!-- Step 2 (only when something is missing): name / phone / address -->
+      <div id="sched-view-details" hidden>
+        <span class="sched-label">Almost done</span>
+        <h4>Where should we send your confirmation?</h4>
+        <p class="sched-slot-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <span id="sd-slot"></span>
+          <button type="button" class="linkish" id="sd-change">Change time</button>
+        </p>
+        <div class="sched-known" id="sd-known" hidden></div>
+        <div class="field" id="sd-name-wrap">
+          <label for="sd-name">Full Name <span class="req" aria-hidden="true">*</span></label>
+          <input id="sd-name" type="text" required placeholder="Jane Smith" autocomplete="name">
+        </div>
+        <div class="field" id="sd-phone-wrap">
+          <label for="sd-phone">Mobile Phone <span class="req" aria-hidden="true">*</span></label>
+          <input id="sd-phone" type="tel" required placeholder="(734) 555-0100" autocomplete="tel">
+        </div>
+        <div class="field" id="sd-address-wrap">
+          <label for="sd-address">Property Address <span class="req" aria-hidden="true">*</span></label>
+          <input id="sd-address" type="text" required placeholder="123 Main St, Ann Arbor" autocomplete="street-address">
+        </div>
+        <label class="consent" for="sd-consent">
+          <input type="checkbox" id="sd-consent" checked required>
+          <span>I agree to receive SMS text messages from <strong>Rooftop Heroes LLC</strong> about my inspection (scheduling, confirmations, estimates and project updates). Msg &amp; data rates may apply. Reply <strong>STOP</strong> to opt out. <a href="/terms">SMS Terms</a></span>
+        </label>
       </div>
+
+      <!-- Booked -->
+      <div id="sched-view-success" hidden>
+        <div class="sched-ok-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></div>
+        <h4>You're booked!</h4>
+        <div class="sched-summary" id="sched-success-summary"></div>
+        <div class="jt-sync" id="sched-sync"></div>
+        <p class="sched-fine">You'll get a text confirmation shortly. Need to change it? Call or text <a href="tel:7342011000">(734) 201-1000</a>.</p>
+        <button type="button" class="btn btn-p btn-block" id="sched-done">Done</button>
+      </div>
+
     </div>
-    <div class="sched-ft">
+    <div class="sched-ft" id="sched-ft">
       <div class="sched-selected-info" id="sched-sel-info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
         <span id="sched-sel-text" style="color:var(--t3)">No time selected yet</span>
@@ -1244,12 +1324,13 @@ function openQuote(){
       settled = true;
       // async restore: JobTread's own success listener may still be mid-dispatch
       setTimeout(function(){ window.alert = origAlert; _schedFlow = false; }, 0);
-      if (!syncEl) return;
-      syncEl.className = 'jt-sync ' + (ok ? 'ok' : 'warn');
-      syncEl.textContent = ok
+      var text = ok
         ? 'Your details and photos were sent to our team.'
         : 'Your inspection is booked, but we could not attach your details automatically'
           + (msg ? ' (' + msg + ')' : '') + '. We will confirm everything by phone.';
+      [syncEl, document.getElementById('sched-sync')].forEach(function(el){
+        if (!el) return; el.className = 'jt-sync ' + (ok ? 'ok' : 'warn'); el.textContent = text;
+      });
     }
 
     form.addEventListener('success', function(){ settle(true); }, { once:true });
@@ -1282,6 +1363,19 @@ function openQuote(){
     if (success) success.style.display = 'block';
   }
 
+  // Shared post-booking step for both flows: fold the appointment into the JobTread
+  // submission, send it, and switch the hero card to its success panel.
+  function afterBooked(lead, date, time){
+    _schedFlow = true;
+    _appt = { date:date, time:time, pretty:prettyDate(date) };
+    if (syncEl) { syncEl.className = 'jt-sync'; syncEl.textContent = 'Sending your details and photos to our team…'; }
+    var ss = document.getElementById('sched-sync'); if (ss) { ss.className = 'jt-sync'; ss.textContent = 'Sending your details to our team…'; }
+    sendToJobTread();   // reads the field values synchronously
+    _appt = null;
+    showSuccess(lead, date, time);
+  }
+  window.__jtBooked = afterBooked;
+
   if (schedBtn) {
     schedBtn.addEventListener('click', function(){
       if (!form.reportValidity()) return;
@@ -1299,15 +1393,8 @@ function openQuote(){
       // openScheduler books the slot with the worker first; this fires only
       // once /api/book has confirmed it.
       openScheduler(lead, function(date, time){
-        _schedFlow = true;
-        _appt = { date:date, time:time, pretty:prettyDate(date) };
-        if (syncEl) {
-          syncEl.className = 'jt-sync';
-          syncEl.textContent = 'Sending your details and photos to our team…';
-        }
-        sendToJobTread();   // reads the field values synchronously
-        _appt = null;
-        showSuccess(lead, date, time);
+        closeScheduler();
+        afterBooked(lead, date, time);
       });
     });
   }
@@ -1319,37 +1406,81 @@ var _leadData  = {};
 var _onBooked  = null;
 var _selDate   = null;
 var _selTime   = null;
+var _schedView = 'pick';
+var _schedTrigger = null;
 
-function openScheduler(lead, onBooked) {
-  _leadData = lead; _onBooked = onBooked; _selDate = null; _selTime = null;
-  document.getElementById('sched-who').innerHTML =
-    '<strong>'+esc2(lead.name)+'</strong>'
-    + (lead.phone   ? ' &nbsp;&middot;&nbsp; '+esc2(lead.phone)   : '')
-    + (lead.address ? ' &nbsp;&middot;&nbsp; '+esc2(lead.address) : '');
-  document.getElementById('sched-err').style.display = 'none';
-  var confirmBtn = document.getElementById('sched-confirm');
+function $id(id){ return document.getElementById(id); }
+function readLeadFromForm(){
+  function v(id){ var el = $id(id); return el ? String(el.value || '').trim() : ''; }
+  return { name: v('f-name'), phone: v('f-phone'), email: v('f-email'), address: v('f-address'),
+           service: v('f-service'), notes: v('f-notes'), website: v('f-website') };
+}
+function leadComplete(l){ return !!(l && l.name && l.phone && l.address); }
+function prettySlot(date, time){
+  var dow = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var d = new Date(date + 'T12:00:00');
+  return dow[d.getDay()] + ', ' + d.toLocaleDateString('en-US',{month:'long',day:'numeric'}) + ' at ' + time;
+}
+function fmtPhone(el){
+  var v = el.value.replace(/\D/g,'');
+  if (v.length >= 10) el.value = '('+v.slice(0,3)+') '+v.slice(3,6)+'-'+v.slice(6,10);
+}
+
+// Every "Schedule a Free Inspection" button lands here: open the popup right away with
+// whatever the visitor has already typed into the form; anything missing is collected
+// inside the popup when they press Confirm.
+function openBooking(){
+  var lead = readLeadFromForm();
+  openScheduler(lead, function(date, time, finalLead){
+    if (window.__jtBooked) window.__jtBooked(finalLead, date, time);   // JobTread submit + hero card success
+    showSchedSuccess(finalLead, date, time);
+  }, { direct: true });
+}
+
+function schedView(name){
+  ['pick','details','success'].forEach(function(v){ var el = $id('sched-view-' + v); if (el) el.hidden = (v !== name); });
+  var ft = $id('sched-ft'); if (ft) ft.hidden = (name === 'success');
+  _schedView = name;
+  var body = document.querySelector('.sched-body'); if (body) body.scrollTop = 0;
+}
+function renderWho(){
+  var who = $id('sched-who'); if (!who) return;
+  if (leadComplete(_leadData)) {
+    who.hidden = false;
+    who.innerHTML = 'Booking for <strong>' + esc2(_leadData.name) + '</strong> &nbsp;&middot;&nbsp; ' + esc2(_leadData.phone) + ' &nbsp;&middot;&nbsp; ' + esc2(_leadData.address);
+  } else { who.hidden = true; who.innerHTML = ''; }
+}
+
+function openScheduler(lead, onBooked, opts) {
+  _leadData = lead || {}; _onBooked = onBooked; _selDate = null; _selTime = null;
+  _schedTrigger = document.activeElement;
+  schedView('pick');
+  renderWho();
+  $id('sched-err').style.display = 'none';
+  var confirmBtn = $id('sched-confirm');
   confirmBtn.disabled = true;
   confirmBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg> Confirm Inspection';
   resetSelDisplay();
-  // Set min date on calendar picker
-  var tmr = new Date();
-  tmr.setDate(tmr.getDate() + 1);
-  document.getElementById('sched-cal-input').min = fmtDateStr(tmr);
+  // Set min / max on the calendar picker
+  var tmr = new Date(); tmr.setDate(tmr.getDate() + 1);
+  $id('sched-cal-input').min = fmtDateStr(tmr);
   var maxD = new Date(); maxD.setDate(maxD.getDate() + 21);
-  document.getElementById('sched-cal-input').max = fmtDateStr(maxD);
-  document.getElementById('sched-overlay').classList.add('open');
+  $id('sched-cal-input').max = fmtDateStr(maxD);
+  $id('sched-cal-input').value = '';
+  $id('sched-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  setTimeout(function(){ var c = $id('sched-close'); if (c) c.focus({ preventScroll:true }); }, 60);
   if (_slotCache) {
     renderDates(_slotCache);
   } else {
-    document.getElementById('sched-dates').innerHTML = '<div class="sched-loading">Loading calendar…</div>';
+    $id('sched-dates').innerHTML = '<div class="sched-loading">Loading calendar…</div>';
     showTimesState('loading');
     fetch(WORKER_URL + '/api/slots?days=21')
       .then(function(r){ return r.json(); })
       .then(function(data){ _slotCache = data; renderDates(data); })
       .catch(function(){
-        document.getElementById('sched-dates').innerHTML =
-          '<div style="font-size:13px;color:#C0392B;padding:8px 0">Could not load schedule. Please call <a href="tel:7342011000" style="color:var(--blue)">(734) 201-1000</a>.</div>';
+        $id('sched-dates').innerHTML =
+          '<div style="font-size:13px;color:#C0392B;padding:8px 0">Could not load the schedule. Please call <a href="tel:7342011000" style="color:var(--blue)">(734) 201-1000</a>.</div>';
         showTimesState('none');
       });
   }
@@ -1357,7 +1488,7 @@ function openScheduler(lead, onBooked) {
 
 function renderDates(slots) {
   var dates = Object.keys(slots).sort();
-  var container = document.getElementById('sched-dates');
+  var container = $id('sched-dates');
   container.innerHTML = '';
   if (!dates.length) {
     container.innerHTML = '<div style="font-size:13px;color:var(--t3);padding:6px 0">No availability in the next 3 weeks. Please call (734) 201-1000.</div>';
@@ -1377,8 +1508,8 @@ function renderDates(slots) {
       document.querySelectorAll('.sched-date').forEach(function(x){ x.classList.remove('active'); });
       el.classList.add('active');
       _selDate = dateStr; _selTime = null;
-      document.getElementById('sched-cal-input').value = dateStr;
-      document.getElementById('sched-confirm').disabled = true;
+      $id('sched-cal-input').value = dateStr;
+      $id('sched-confirm').disabled = true;
       resetSelDisplay();
       renderTimes(slots[dateStr] || []);
     });
@@ -1388,7 +1519,7 @@ function renderDates(slots) {
 }
 
 function renderTimes(times) {
-  var grid = document.getElementById('sched-times');
+  var grid = $id('sched-times');
   grid.innerHTML = '';
   if (!times.length) { showTimesState('none'); return; }
   showTimesState('grid');
@@ -1406,35 +1537,139 @@ function renderTimes(times) {
 
 function setSelectedTime(t) {
   _selTime = t;
-  document.getElementById('sched-confirm').disabled = !(_selDate && _selTime);
+  $id('sched-confirm').disabled = !(_selDate && _selTime);
   if (_selDate && _selTime) {
-    var dow = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    var d   = new Date(_selDate + 'T12:00:00');
-    var selText = document.getElementById('sched-sel-text');
+    var selText = $id('sched-sel-text');
     selText.style.color = 'var(--t1)';
-    selText.textContent = dow[d.getDay()] + ', ' + d.toLocaleDateString('en-US',{month:'long',day:'numeric'}) + ' at ' + t;
+    selText.textContent = prettySlot(_selDate, _selTime);
   }
 }
 
 function resetSelDisplay() {
-  var selText = document.getElementById('sched-sel-text');
+  var selText = $id('sched-sel-text');
   if (selText) { selText.style.color = 'var(--t3)'; selText.textContent = 'No time selected yet'; }
 }
 
 function showTimesState(state) {
-  document.getElementById('sched-times-loading').style.display = state === 'loading' ? 'flex' : 'none';
-  document.getElementById('sched-times').style.display         = state === 'grid'    ? 'grid' : 'none';
-  document.getElementById('sched-no-times').style.display      = state === 'none'    ? 'block': 'none';
+  $id('sched-times-loading').style.display = state === 'loading' ? 'flex' : 'none';
+  $id('sched-times').style.display         = state === 'grid'    ? 'grid' : 'none';
+  $id('sched-no-times').style.display      = state === 'none'    ? 'block': 'none';
 }
 
 function closeScheduler() {
-  document.getElementById('sched-overlay').classList.remove('open');
+  $id('sched-overlay').classList.remove('open');
   document.body.style.overflow = '';
+  if (_schedTrigger && typeof _schedTrigger.focus === 'function') { try { _schedTrigger.focus({ preventScroll:true }); } catch(e){} }
 }
 
 function showSchedErr(msg) {
-  var el = document.getElementById('sched-err');
+  var el = $id('sched-err');
   el.textContent = msg; el.style.display = 'block';
+}
+
+// Missing-details step: shows an input only for the fields we do not have yet.
+function showDetailsPanel(){
+  var map = { name:'sd-name', phone:'sd-phone', address:'sd-address' };
+  var firstMissing = null;
+  Object.keys(map).forEach(function(k){
+    var wrap = $id(map[k] + '-wrap'), inp = $id(map[k]);
+    var have = !!_leadData[k];
+    wrap.hidden = have; inp.value = have ? _leadData[k] : '';
+    if (!have && !firstMissing) firstMissing = inp;
+  });
+  var parts = [];
+  if (_leadData.name)    parts.push('<strong>' + esc2(_leadData.name) + '</strong>');
+  if (_leadData.phone)   parts.push(esc2(_leadData.phone));
+  if (_leadData.address) parts.push(esc2(_leadData.address));
+  var known = $id('sd-known');
+  known.hidden = !parts.length;
+  known.innerHTML = parts.length ? 'Booking for ' + parts.join(' &nbsp;&middot;&nbsp; ') : '';
+  var c = $id('sd-consent'), fc = $id('f-sms-consent');
+  if (c && fc) c.checked = fc.checked || c.checked;
+  $id('sd-slot').textContent = prettySlot(_selDate, _selTime);
+  schedView('details');
+  if (firstMissing) setTimeout(function(){ firstMissing.focus({ preventScroll:true }); }, 60);
+}
+function collectDetails(){
+  var ok = true;
+  ['sd-name','sd-phone','sd-address'].forEach(function(id){
+    var inp = $id(id);
+    if (ok && !$id(id + '-wrap').hidden && !inp.reportValidity()) ok = false;
+  });
+  if (!ok) return false;
+  var c = $id('sd-consent');
+  if (c && !c.checked) { c.reportValidity(); return false; }
+  if (!$id('sd-name-wrap').hidden)    _leadData.name    = $id('sd-name').value.trim();
+  if (!$id('sd-phone-wrap').hidden)   _leadData.phone   = $id('sd-phone').value.trim();
+  if (!$id('sd-address-wrap').hidden) _leadData.address = $id('sd-address').value.trim();
+  // Mirror into the main form so the JobTread submission carries the same details.
+  var f = { name:'f-name', phone:'f-phone', address:'f-address' };
+  Object.keys(f).forEach(function(k){ var el = $id(f[k]); if (el && _leadData[k]) el.value = _leadData[k]; });
+  var fc = $id('f-sms-consent'); if (fc && c) fc.checked = c.checked;
+  renderWho();
+  return true;
+}
+
+function showSchedSuccess(lead, date, time){
+  var s = $id('sched-success-summary');
+  if (s) {
+    var rows = [];
+    rows.push('<div style="color:var(--blue);font-weight:600">📅 ' + esc2(prettySlot(date, time)) + '</div>');
+    rows.push('<div><strong>Name:</strong> ' + esc2(lead.name) + '</div>');
+    rows.push('<div><strong>Phone:</strong> ' + esc2(lead.phone) + '</div>');
+    rows.push('<div><strong>Property:</strong> ' + esc2(lead.address) + '</div>');
+    if (lead.service) rows.push('<div><strong>Service:</strong> ' + esc2(lead.service) + '</div>');
+    s.innerHTML = rows.join('');
+  }
+  var sync = $id('sched-sync'); if (sync) { sync.className = 'jt-sync'; sync.textContent = ''; }
+  schedView('success');
+  setTimeout(function(){ var d = $id('sched-done'); if (d) d.focus({ preventScroll:true }); }, 60);
+}
+
+function bookSlot(btn){
+  btn.disabled = true; btn.textContent = 'Booking…';
+  $id('sched-err').style.display = 'none';
+  fetch(WORKER_URL + '/api/book', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      date: _selDate, time: _selTime,
+      name:    _leadData.name,
+      phone:   _leadData.phone,
+      email:   _leadData.email    || '',
+      address: _leadData.address,
+      service: _leadData.service  || '',
+      notes:   _leadData.notes    || '',
+      website: _leadData.website  || ''
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if (data.ok) {
+      // Drop the slot locally so it disappears without waiting for KV propagation
+      if (_slotCache && _slotCache[_selDate]) {
+        _slotCache[_selDate] = _slotCache[_selDate].filter(function(t){ return t !== _selTime; });
+        if (_slotCache[_selDate].length === 0) { delete _slotCache[_selDate]; }
+      }
+      var d = _selDate, t = _selTime;
+      _onBooked(d, t, _leadData);
+    } else {
+      showSchedErr(data.error || 'Booking failed. Please try again.');
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg> Confirm Inspection';
+      if (data.error && data.error.indexOf('booked') > -1) {
+        schedView('pick');
+        fetch(WORKER_URL + '/api/slots?days=21')
+          .then(function(r){ return r.json(); })
+          .then(function(dd){ _slotCache = dd; renderDates(dd); });
+      }
+    }
+  })
+  .catch(function(){
+    showSchedErr('Network error. Please try again or call (734) 201-1000.');
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg> Confirm Inspection';
+  });
 }
 
 function fmtDateStr(d) {
@@ -1444,82 +1679,34 @@ function esc2(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'
 
 // ── Wire up all modal controls after DOM is ready ────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
-  // Close button
-  document.getElementById('sched-close').addEventListener('click', closeScheduler);
-  // Click outside modal to close
-  document.getElementById('sched-overlay').addEventListener('click', function(e){
-    if (e.target === this) closeScheduler();
-  });
-  // Escape key
+  $id('sched-close').addEventListener('click', closeScheduler);
+  $id('sched-overlay').addEventListener('click', function(e){ if (e.target === this) closeScheduler(); });
   document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && document.getElementById('sched-overlay').classList.contains('open')) closeScheduler();
+    if (e.key === 'Escape' && $id('sched-overlay').classList.contains('open')) closeScheduler();
   });
-  // Prev/Next scroll buttons
-  document.getElementById('sched-prev').addEventListener('click', function(){
-    document.getElementById('sched-dates').scrollBy({ left: -140, behavior: 'smooth' });
-  });
-  document.getElementById('sched-next').addEventListener('click', function(){
-    document.getElementById('sched-dates').scrollBy({ left: 140, behavior: 'smooth' });
-  });
-  // Calendar icon picker
-  document.getElementById('sched-cal-input').addEventListener('change', function(){
-    var picked = this.value; // YYYY-MM-DD
-    if (!picked) return;
+  $id('sched-prev').addEventListener('click', function(){ $id('sched-dates').scrollBy({ left: -160, behavior: 'smooth' }); });
+  $id('sched-next').addEventListener('click', function(){ $id('sched-dates').scrollBy({ left: 160, behavior: 'smooth' }); });
+  // "Jump to a date": open the native picker on click where supported
+  var cal = $id('sched-cal-input');
+  cal.addEventListener('click', function(e){ if (typeof this.showPicker === 'function') { try { e.preventDefault(); this.showPicker(); } catch(err){} } });
+  cal.addEventListener('change', function(){
+    var picked = this.value; if (!picked) return;
     var btn = document.querySelector('.sched-date[data-date="'+picked+'"]');
-    if (btn) {
-      btn.click();
-      btn.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
-    } else if (_slotCache && !_slotCache[picked]) {
-      showSchedErr('No availability on that date - please choose another.');
-    }
+    if (btn) { btn.click(); btn.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' }); }
+    else if (_slotCache && !_slotCache[picked]) { showSchedErr('No availability on that date. Please choose another.'); }
   });
-  // Confirm booking button
-  document.getElementById('sched-confirm').addEventListener('click', function(){
+  var sdPhone = $id('sd-phone'); if (sdPhone) sdPhone.addEventListener('input', function(){ fmtPhone(this); });
+  $id('sd-change').addEventListener('click', function(){ schedView('pick'); });
+  $id('sched-done').addEventListener('click', function(){
+    closeScheduler();
+    var card = $id('contact'); if (card) card.scrollIntoView({ behavior:'smooth', block:'center' });
+  });
+  // Confirm: needs a slot; then complete details if anything is missing; then book.
+  $id('sched-confirm').addEventListener('click', function(){
     if (!_selDate || !_selTime) return;
-    var btn = this;
-    btn.disabled = true; btn.textContent = 'Booking…';
-    document.getElementById('sched-err').style.display = 'none';
-    fetch(WORKER_URL + '/api/book', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        date: _selDate, time: _selTime,
-        name:    _leadData.name,
-        phone:   _leadData.phone,
-        email:   _leadData.email    || '',
-        address: _leadData.address,
-        service: _leadData.service  || '',
-        notes:   _leadData.notes    || '',
-        website: _leadData.website  || ''
-      })
-    })
-    .then(function(r){ return r.json(); })
-    .then(function(data){
-      if (data.ok) {
-        // Immediately update local cache so slot vanishes without waiting for KV propagation
-        if (_slotCache && _slotCache[_selDate]) {
-          _slotCache[_selDate] = _slotCache[_selDate].filter(function(t){ return t !== _selTime; });
-          if (_slotCache[_selDate].length === 0) { delete _slotCache[_selDate]; }
-        }
-        closeScheduler();
-        _onBooked(_selDate, _selTime);
-      } else {
-        showSchedErr(data.error || 'Booking failed. Please try again.');
-        btn.disabled = false;
-        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg> Confirm Inspection';
-        if (data.error && data.error.indexOf('booked') > -1) {
-          // Re-fetch fresh slots since something changed server-side
-          fetch(WORKER_URL + '/api/slots?days=21')
-            .then(function(r){ return r.json(); })
-            .then(function(d){ _slotCache = d; renderDates(d); });
-        }
-      }
-    })
-    .catch(function(){
-      showSchedErr('Network error. Please try again or call (734) 201-1000.');
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg> Confirm Inspection';
-    });
+    if (_schedView === 'details') { if (!collectDetails()) return; }
+    else if (!leadComplete(_leadData)) { showDetailsPanel(); return; }
+    bookSlot(this);
   });
 });
 </script>
