@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SMS Terms of Service - Rooftop Heroes LLC</title>
+<meta name="description" content="SMS Terms of Service for Rooftop Heroes LLC. How we use text messaging for service communications.">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="canonical" href="https://rooftopheroes.com/terms">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF;--c1:#F5F8FC;
+  --t1:#0B1F3A;--t2:#3D4A5C;--t3:#5B6672;
+  --blue:#1B5FC9;--blue3:#154BA3;
+  --yellow:#FFC928;--yellow2:#FFD34D;
+  --border:#E3E8EF;
+  --card:#F5F8FC;
+  --shadow:0 6px 24px rgba(11,31,58,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font:16px/1.7 Inter,sans-serif;background:var(--bg);color:var(--t1);overflow-x:hidden}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 60% 50% at 15% 20%,rgba(77,163,255,.06),transparent 70%);
+}
+a{color:var(--blue);text-decoration:underline}
+a:hover{color:var(--blue3)}
+.wrap{max-width:860px;margin:0 auto;padding:0 28px}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1320px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--t1)}
+.logo img{width:40px;height:40px;object-fit:contain;border-radius:9px;}
+.logo b{font-weight:900;font-size:14px;letter-spacing:-.3px}
+.nav-back{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:600;color:var(--t2);text-decoration:none;
+  padding:8px 14px;border:1px solid var(--border);border-radius:8px;transition:.2s;
+}
+.nav-back:hover{color:var(--blue);border-color:var(--blue);text-decoration:none}
+
+/* PAGE HEADER */
+.page-header{
+  padding:56px 0 40px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:48px;
+}
+.page-header .eyebrow{
+  color:var(--blue);font-weight:700;font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;
+}
+.page-header h1{font-weight:900;font-size:40px;line-height:1.08;letter-spacing:-1.5px;margin-bottom:14px}
+.page-header .meta{font-size:13px;color:var(--t3)}
+
+/* QUICK REFERENCE BOX */
+.quick-ref{
+  background:rgba(77,163,255,.06);
+  border:1px solid rgba(77,163,255,.25);
+  border-radius:12px;padding:22px 24px;margin-bottom:44px;
+}
+.quick-ref h2{font-size:14px;font-weight:700;color:var(--blue);letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px}
+.qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qr-item{display:flex;flex-direction:column;gap:3px}
+.qr-item .label{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px}
+.qr-item .value{font-size:14px;color:var(--t1);font-weight:500}
+@media(max-width:560px){.qr-grid{grid-template-columns:1fr}}
+
+/* CONTENT */
+.doc-body{padding-bottom:80px}
+.doc-body section{margin-bottom:44px}
+.doc-body h2{
+  font-size:18px;font-weight:800;color:var(--t1);
+  margin-bottom:14px;padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+  letter-spacing:-.3px;
+}
+.doc-body h3{font-size:15px;font-weight:700;color:var(--blue);margin:18px 0 8px}
+.doc-body p{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:12px}
+.doc-body ul{margin:10px 0 14px 18px}
+.doc-body ul li{font-size:14px;color:var(--t2);line-height:1.65;margin-bottom:6px;list-style:disc}
+.doc-body strong{color:var(--t1);font-weight:600}
+
+/* sample message box */
+.sample-msg{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:10px;padding:14px 18px;margin:10px 0 16px;
+  font-size:13.5px;color:var(--t2);line-height:1.65;
+  font-style:italic;
+}
+.sample-msg strong{color:var(--t1);font-style:normal}
+
+/* highlight box */
+.highlight-box{
+  background:rgba(77,163,255,.07);
+  border:1px solid rgba(77,163,255,.22);
+  border-left:3px solid var(--blue);
+  border-radius:10px;padding:16px 20px;margin:14px 0 18px;
+}
+.highlight-box p{margin:0;font-size:13.5px;color:var(--t2);line-height:1.65}
+.highlight-box strong{color:var(--blue)}
+
+/* warning box */
+.warning-box{
+  background:rgba(255,201,40,.06);
+  border:1px solid rgba(255,201,40,.25);
+  border-left:3px solid var(--yellow);
+  border-radius:10px;padding:16px 20px;margin:14px 0 18px;
+}
+.warning-box p{margin:0;font-size:13.5px;color:var(--t2);line-height:1.65}
+.warning-box strong{color:var(--yellow2)}
+
+/* keyword pills */
+.keyword{
+  display:inline-block;background:rgba(77,163,255,.15);
+  color:var(--blue);font-weight:700;font-size:13px;
+  padding:2px 10px;border-radius:5px;margin:0 2px;
+  font-family:monospace;letter-spacing:.5px;
+}
+
+/* carrier list */
+.carrier-list{
+  font-size:13px;color:var(--t3);line-height:1.8;
+}
+
+/* contact card */
+.contact-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:22px 24px;margin-top:10px;
+}
+.contact-card p{margin-bottom:6px;font-size:14px;color:var(--t2)}
+.contact-card a{color:var(--blue)}
+
+/* FOOTER */
+footer{padding:20px 0 32px;border-top:1px solid var(--border);text-align:center}
+footer p{font-size:12px;color:var(--t3)}
+footer a{color:var(--blue);font-size:12px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <img src="/assets/logo-navy.png" alt="Rooftop Heroes">
+      <b>ROOFTOP HEROES</b>
+    </a>
+    <a href="/" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Home
+    </a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="page-header">
+    <p class="eyebrow">Legal</p>
+    <h1>SMS Terms of Service</h1>
+    <p class="meta">Rooftop Heroes LLC &nbsp;·&nbsp; Last updated: May 18, 2025 &nbsp;·&nbsp; Effective: May 18, 2025</p>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div class="quick-ref">
+    <h2>Quick Reference</h2>
+    <div class="qr-grid">
+      <div class="qr-item"><span class="label">Program Name</span><span class="value">Rooftop Heroes LLC Service SMS</span></div>
+      <div class="qr-item"><span class="label">Message Types</span><span class="value">Transactional / Service Only</span></div>
+      <div class="qr-item"><span class="label">Message Frequency</span><span class="value">Varies by active project</span></div>
+      <div class="qr-item"><span class="label">Opt-Out Keyword</span><span class="value">STOP</span></div>
+      <div class="qr-item"><span class="label">Help Keyword</span><span class="value">HELP</span></div>
+      <div class="qr-item"><span class="label">Rates</span><span class="value">Msg &amp; data rates may apply</span></div>
+      <div class="qr-item"><span class="label">Marketing Messages</span><span class="value">Never sent</span></div>
+      <div class="qr-item"><span class="label">Consent Required</span><span class="value">Yes - prior to first message</span></div>
+    </div>
+  </div>
+
+  <div class="doc-body">
+
+    <section>
+      <p>These SMS Terms of Service ("SMS Terms") govern the text messaging program operated by Rooftop Heroes LLC ("Rooftop Heroes," "we," "us," or "our"), located at 3027 Miller Rd, Suite 11, Ann Arbor, MI 48103. By providing your mobile phone number and checking the SMS consent checkbox on our website contact form at rooftopheroes.com, you agree to these SMS Terms.</p>
+    </section>
+
+    <section>
+      <h2>1. Program Description</h2>
+      <p>Rooftop Heroes LLC sends SMS messages to customers and prospective customers who have explicitly opted in via a consent checkbox on our website at rooftopheroes.com. Messages are sent by Rooftop Heroes LLC to opted-in contacts regarding roofing estimates, appointment scheduling, project updates, and customer support. Message frequency varies. Consent is not a condition of purchase. Msg &amp; data rates may apply. Reply <strong>STOP</strong> to opt out, <strong>HELP</strong> for help.</p>
+
+      <h3>Message types we send</h3>
+      <ul>
+        <li>Service request confirmations</li>
+        <li>Inspection scheduling and appointment confirmations</li>
+        <li>Appointment reminders and updates</li>
+        <li>Estimate delivery and follow-up</li>
+        <li>Project status updates</li>
+        <li>Customer support responses related to your active service request</li>
+      </ul>
+
+      <h3>Message types we never send</h3>
+      <ul>
+        <li>Promotional, marketing, or advertising messages</li>
+        <li>Messages used for lead generation or re-engagement campaigns</li>
+        <li>Messages to individuals who have not provided prior express written consent</li>
+        <li>Messages to individuals who have opted out</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Consent and Sign-Up Confirmation</h2>
+      <p>You must provide <strong>express written consent</strong> before we send you any SMS message. Consent is obtained exclusively by checking the SMS consent checkbox on our website contact form at rooftopheroes.com at the time of submitting a service request. The checkbox is unchecked by default.</p>
+
+      <div class="warning-box">
+        <p><strong>Consent is not a condition of purchase.</strong> You may receive our roofing services without agreeing to receive SMS messages.</p>
+      </div>
+
+      <p>When you opt in to the service, we may send you a message to confirm your signup. Message and data rates may apply. Message frequency varies. Text <span class="keyword">HELP</span> for help. Text <span class="keyword">STOP</span> to cancel.</p>
+
+      <p>We record the date, time, source URL, and consent language version at the time consent is provided. These records are retained for a minimum of 4 years for compliance purposes.</p>
+    </section>
+
+    <section>
+      <h2>3. How to Stop Messages</h2>
+      <p>You can cancel this service at any time. Just text <span class="keyword">STOP</span> to the number from which you received our message. After you send the message <span class="keyword">STOP</span> to us, we will reply to confirm that you have been unsubscribed. After this, you will no longer receive messages from us. If you want to join again, just sign up as you did the first time through our website contact form, and we will start sending you messages again.</p>
+    </section>
+
+    <section>
+      <h2>4. How to Get Help</h2>
+      <p>If at any time you forget what keywords are supported, just text <span class="keyword">HELP</span> to the number from which you received our message. After you send the message <span class="keyword">HELP</span> to us, we will respond with instructions on how to use our service and how to unsubscribe.</p>
+      <p>You may also contact us directly:</p>
+      <div class="contact-card">
+        <p><strong>Rooftop Heroes LLC</strong></p>
+        <p>3027 Miller Rd, Suite 11, Ann Arbor, MI 48103</p>
+        <p>Phone: <a href="tel:7342011000">(734) 201-1000</a></p>
+        <p>Email: <a href="mailto:info@rooftopheroes.com">info@rooftopheroes.com</a></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. Message Frequency and Rates</h2>
+      <p>Message frequency varies depending on the status and needs of your active roofing project. Most customers receive between 2 and 8 messages per project, from initial confirmation through project completion. You will not receive messages after your project is closed unless a new service request is submitted.</p>
+      <p>Message and data rates may apply. Rooftop Heroes LLC does not charge you to receive our messages, but your mobile carrier's standard rates apply. Contact your carrier for details about your plan.</p>
+    </section>
+
+    <section>
+      <h2>6. Sample Messages</h2>
+      <p>Below are representative examples of the types of messages you may receive:</p>
+
+      <p><strong>Service Request Confirmation</strong></p>
+      <div class="sample-msg">
+        <strong>Rooftop Heroes LLC:</strong> We received your roofing service request for [Address]. A team member will contact you shortly to schedule your free inspection. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.
+      </div>
+
+      <p><strong>Appointment Confirmation</strong></p>
+      <div class="sample-msg">
+        <strong>Rooftop Heroes LLC:</strong> Hi [First Name], your free roof inspection is confirmed for [Date] at [Time] at [Address]. Questions? Call or text (734) 201-1000. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.
+      </div>
+
+      <p><strong>Appointment Reminder</strong></p>
+      <div class="sample-msg">
+        <strong>Rooftop Heroes LLC:</strong> Hi [First Name], this is a reminder about your upcoming roof inspection on [Date] at [Time]. Call or text (734) 201-1000 if you need to reschedule. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.
+      </div>
+
+      <p><strong>Estimate Ready</strong></p>
+      <div class="sample-msg">
+        <strong>Rooftop Heroes LLC:</strong> Hi [First Name], your roofing estimate for [Address] is ready. We'll send it to your email and are happy to walk you through it. Call or text (734) 201-1000. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.
+      </div>
+    </section>
+
+    <section>
+      <h2>7. Participating Carriers</h2>
+      <p>Our SMS program is supported by all major U.S. wireless carriers. Participating carriers include:</p>
+      <p class="carrier-list">AT&amp;T, Verizon Wireless, Sprint, T-Mobile, U.S. Cellular, Boost Mobile, MetroPCS, Virgin Mobile, Alaska Communications Systems (ACS), Appalachian Wireless (EKN), Bluegrass Cellular, Cellular One of East Central IL (ECIT), Cellular One of Northeast Pennsylvania, Cricket, Coral Wireless (Mobi PCS), COX, Cross, Element Mobile (Flat Wireless), Epic Touch (Elkhart Telephone), GCI, Golden State, Hawkeye (Chat Mobility), Hawkeye (NW Missouri), Illinois Valley Cellular, Inland Cellular, iWireless (Iowa Wireless), Keystone Wireless (Immix Wireless/PC Man), Mosaic (Consolidated or CTC Telecom), Nex-Tech Wireless, NTelos, Panhandle Communications, Pioneer, Plateau (Texas RSA 3 Ltd), Revol, RINA, Simmetry (TMP Corporation), Thumb Cellular, Union Wireless, United Wireless, Viaero Wireless, and West Central (WCC or 5 Star Wireless).</p>
+      <p><strong>Carriers are not liable for delayed or undelivered messages.</strong> Delivery is not guaranteed on all carriers. Carrier support may change without notice.</p>
+    </section>
+
+    <section>
+      <h2>8. Data Use and Privacy</h2>
+      <p>Your mobile phone number and SMS consent data are used solely to deliver the service communications described in these SMS Terms. Mobile information will not be shared with third parties or affiliates for marketing or promotional purposes. Information sharing with subcontractors for purposes directly supporting your active service request is permitted under confidentiality obligations. Text messaging originator opt-in data and consent are exempt from third-party sharing. All other use-case categories exclude text messaging originator opt-in data and consent; this information will not be shared.</p>
+      <p>If you have any questions regarding privacy, please read our <a href="/privacy">Privacy Policy</a>.</p>
+    </section>
+
+    <section>
+      <h2>9. Relationship to Privacy Policy</h2>
+      <p>These SMS Terms are supplemental to and do not replace our <a href="/privacy">Privacy Policy</a>, which governs the collection, use, and protection of all personal information we hold about you. Please review our Privacy Policy for full details on how your information is handled.</p>
+    </section>
+
+    <section>
+      <h2>10. Changes to These Terms</h2>
+      <p>We may update these SMS Terms from time to time. When we do, we will update the "Last updated" date at the top of this page. Continued use of our SMS program after changes are posted constitutes your acceptance of the updated terms.</p>
+    </section>
+
+    <section>
+      <h2>11. Contact Us</h2>
+      <p>Questions about these SMS Terms? Contact us:</p>
+      <div class="contact-card">
+        <p><strong>Rooftop Heroes LLC</strong></p>
+        <p>3027 Miller Rd, Suite 11</p>
+        <p>Ann Arbor, MI 48103</p>
+        <p>Phone: <a href="tel:7342011000">(734) 201-1000</a></p>
+        <p>Email: <a href="mailto:info@rooftopheroes.com">info@rooftopheroes.com</a></p>
+        <p>Website: <a href="https://rooftopheroes.com">rooftopheroes.com</a></p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  <p style="margin-bottom:8px">&copy; 2025 Rooftop Heroes LLC &nbsp;·&nbsp; 3027 Miller Rd Suite 11, Ann Arbor, MI 48103 &nbsp;·&nbsp; All rights reserved.</p>
+  <p><a href="/">Home</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/terms">SMS Terms</a></p>
+</footer>
+
+</body>
+</html>

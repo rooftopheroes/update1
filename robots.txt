@@ -1,0 +1,6 @@
+# Rooftop Heroes - rooftopheroes.com
+# NOTE: Cloudflare's managed robots.txt / "Block AI bots" setting overrides this file until it is turned off in the Cloudflare dashboard.
+User-agent: *
+Allow: /
+
+Sitemap: https://rooftopheroes.com/sitemap.xml
